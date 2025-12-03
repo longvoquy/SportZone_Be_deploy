@@ -60,6 +60,8 @@ export class FieldsService {
         latitude?: number;
         longitude?: number;
         radius?: number; // in kilometers
+        sortBy?: string;
+        sortOrder?: 'asc' | 'desc';
     }): Promise<FieldsDto[]> {
         // Lọc theo tên và loại thể thao
         const filter: any = { isActive: true };
@@ -92,8 +94,15 @@ export class FieldsService {
             };
         }
 
+        // Build sort options
+        let sortOptions: any = {};
+        if (query?.sortBy === 'price' && query?.sortOrder) {
+            sortOptions.basePrice = query.sortOrder === 'asc' ? 1 : -1;
+        }
+
         const fields = await this.fieldModel
             .find(filter)
+            .sort(sortOptions)
             .lean();
 
         return fields.map(field => {

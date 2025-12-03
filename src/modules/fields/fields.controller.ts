@@ -20,6 +20,8 @@ export class FieldsController {
     @Query('latitude') latitude?: number,
     @Query('longitude') longitude?: number,
     @Query('radius') radius?: number,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortOrder') sortOrder?: 'asc' | 'desc',
   ): Promise<FieldsDto[]> {
     // Convert sportTypes to array if it's a string
     const sportTypesArray = sportTypes
@@ -34,6 +36,8 @@ export class FieldsController {
       latitude,
       longitude,
       radius,
+      sortBy,
+      sortOrder,
     });
   }
 
